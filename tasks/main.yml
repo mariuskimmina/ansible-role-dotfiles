@@ -1,10 +1,20 @@
+---
+- name: Ensure git is installed (Fedora).
+  ansible.builtin.dnf:
+    name: "{{ git_packages }}"
+    state: present
+  when:
+    - ansible_os_family == 'RedHat'
+
+- name: Ensure git is installed (Ubuntu).
+  ansible.builtin.apt:
+    name: "{{ git_packages }}"
+    state: present
 
 - name: Ensure dotfiles repository is cloned locally.
-  git:
+  ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ dotfiles_repo_local_destination }}"
     version: "{{ dotfiles_repo_version }}"
     accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   become: false
-
-- name: stow dotfiles
