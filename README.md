@@ -16,6 +16,13 @@ Requires `git` to be installed on the maschine
 
 None
 
+## Tests
+
+Fully tested on:
+
+* Fedora 36
+* Ubuntu 20.04
+
 ## Credits
 
 Inspired by: https://github.com/geerlingguy/ansible-role-dotfiles
