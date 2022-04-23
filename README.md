@@ -9,10 +9,6 @@ Works for all dotfile repos that follow the [stow][stow] format.
 2. Create a playbook with this Role
 3. Run the playbook
 
-## Requirements
-
-Requires `git` to be installed on the maschine
-
 ## Dependencies
 
 None
