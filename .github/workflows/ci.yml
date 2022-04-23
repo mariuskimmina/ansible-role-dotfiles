@@ -26,6 +26,7 @@ jobs:
       - name: Lint code.
         run: |
           yamllint .
+
   molecule:
     name: Molecule
     runs-on: ubuntu-latest
@@ -33,7 +34,6 @@ jobs:
       matrix:
         distro:
           - centos7
-          - ubuntu1804
 
     steps:
       - name: Check out the codebase.
