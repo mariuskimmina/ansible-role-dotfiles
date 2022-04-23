@@ -23,7 +23,7 @@ None
 ---
 - hosts: localhost
   roles:
-  - mariuskimmina.dotfiles
+    - { role: mariuskimmina.dotfiles }
   become: true
 ```
 
