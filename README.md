@@ -6,7 +6,8 @@ Works for all dotfile repos that follow the [stow][stow] format.
 ## Usage
 
 1. Change the `dotfiles_repo` variable in `defaults/main.yml` to point to your dotfiles repo
-2. TBD
+2. Create a playbook with this Role
+3. Run the playbook
 
 ## Requirements
 
@@ -15,6 +16,17 @@ Requires `git` to be installed on the maschine
 ## Dependencies
 
 None
+
+## Example playbook
+
+```
+---
+- hosts: localhost
+  roles:
+  - mariuskimmina.dotfiles
+  become: true
+```
+
 
 ## Tests
 
