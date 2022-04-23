@@ -1,22 +1,24 @@
 ---
-- name: Ensure git is installed (Fedora).
+- name: Ensure git is installed (Fedora)
   ansible.builtin.dnf:
     name: git
     state: present
   when:
     - ansible_os_family == 'RedHat'
 
-- name: Ensure git is installed (Ubuntu).
+- name: Ensure git is installed (Ubuntu)
   ansible.builtin.apt:
     name: git
     state: present
   when:
     - ansible_os_family == 'Debian'
 
-- name: Ensure dotfiles repository is cloned locally.
+- name: Ensure dotfiles repository is cloned locally
+  vars:
+    user_home: "{{ lookup('env', 'HOME') }}"
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
-    dest: "{{ dotfiles_repo_local_destination }}"
+    dest: "{{ user_home }}/.dotfiles"
     version: "{{ dotfiles_repo_version }}"
     accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   become: false
@@ -36,15 +38,21 @@
     - ansible_os_family == 'RedHat'
 
 - name: Build directories list
+  vars:
+    user_home: "{{ lookup('env', 'HOME') }}"
   ansible.builtin.find:
-    paths: ["{{ dotfiles_repo_local_destination }}"]
+    paths: ["{{ user_home }}/.dotfiles"]
     recurse: no
     file_type: directory
   register: files
   become: false
 
-- name: Deploy dotfiles!
+- name: Deploy dotfiles
   with_items: '{{ files.files }}'
+  vars:
+    user_home: "{{ lookup('env', 'HOME') }}"
+  environment:
+    STOW_DIR: "{{ user_home }}/.dotfiles"
   ansible.builtin.shell: |
-    stow {{ item.path | replace("dotfiles/", "") }}
+    stow {{ item.path | basename }}
   changed_when: false
