@@ -19,7 +19,7 @@ provisioner:
   ssh_connection:
     pipelining: false
 verifier:
-  name: ansible
+  name: testinfra
 lint: |
   set -e
   yamllint .

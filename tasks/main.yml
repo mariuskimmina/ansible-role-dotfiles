@@ -5,6 +5,7 @@
     state: present
   when:
     - ansible_os_family == 'RedHat'
+  become: true
 
 - name: Ensure git is installed (Ubuntu)
   ansible.builtin.apt:
@@ -12,6 +13,7 @@
     state: present
   when:
     - ansible_os_family == 'Debian'
+  become: true
 
 - name: Ensure dotfiles repository is cloned locally
   vars:
@@ -29,6 +31,7 @@
     state: present
   when:
     - ansible_os_family == 'Debian'
+  become: true
 
 - name: Ensure Stow installed (Fedora)
   ansible.builtin.dnf:
@@ -36,6 +39,7 @@
     state: present
   when:
     - ansible_os_family == 'RedHat'
+  become: true
 
 - name: Build directories list
   vars:
@@ -56,3 +60,4 @@
   ansible.builtin.shell: |
     stow {{ item.path | basename }}
   changed_when: false
+  become: false
