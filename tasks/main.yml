@@ -1,51 +1,31 @@
 ---
-- name: Ensure git is installed (Fedora)
-  ansible.builtin.dnf:
-    name: git
-    state: present
-  when:
-    - ansible_os_family == 'RedHat'
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_pkg_mgr == 'apt'
+  changed_when: false
   become: true
 
-- name: Ensure git is installed (Ubuntu)
-  ansible.builtin.apt:
-    name: git
+- name: Install stow and git
+  ansible.builtin.package:
+    name:
+      - stow
+      - git
     state: present
-  when:
-    - ansible_os_family == 'Debian'
   become: true
 
 - name: Ensure dotfiles repository is cloned locally
-  vars:
-    user_home: "{{ lookup('env', 'HOME') }}"
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
-    dest: "{{ user_home }}/.dotfiles"
+    dest: "{{ dotfiles_repo_local_destination }}"
     version: "{{ dotfiles_repo_version }}"
     accept_hostkey: "{{ dotfiles_repo_accept_hostkey }}"
   become: false
 
-- name: Ensure Stow installed (Ubuntu)
-  ansible.builtin.apt:
-    name: stow
-    state: present
-  when:
-    - ansible_os_family == 'Debian'
-  become: true
-
-- name: Ensure Stow installed (Fedora)
-  ansible.builtin.dnf:
-    name: stow
-    state: present
-  when:
-    - ansible_os_family == 'RedHat'
-  become: true
-
 - name: Build directories list
-  vars:
-    user_home: "{{ lookup('env', 'HOME') }}"
   ansible.builtin.find:
-    paths: ["{{ user_home }}/.dotfiles"]
+    paths: ["{{ dotfiles_repo_local_destination }}"]
     recurse: no
     file_type: directory
   register: files
@@ -53,11 +33,6 @@
 
 - name: Deploy dotfiles
   with_items: '{{ files.files }}'
-  vars:
-    user_home: "{{ lookup('env', 'HOME') }}"
-  environment:
-    STOW_DIR: "{{ user_home }}/.dotfiles"
-  ansible.builtin.shell: |
-    stow {{ item.path | basename }}
+  ansible.builtin.command: stow --target={{ dotfiles_home }} {{ item.path | basename }}
   changed_when: false
   become: false
