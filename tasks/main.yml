@@ -34,6 +34,7 @@
 
 - name: Deploy dotfiles
   with_items: '{{ files.files }}'
-  ansible.builtin.command: stow --target={{ dotfiles_home }} {{ item.path | basename }}
-  changed_when: false
+  # https://phelipetls.github.io/posts/introduction-to-ansible/#stow
+  ansible.builtin.command: stow --target={{ dotfiles_home }} {{ item.path | basename }} --verbose=2
+  changed_when: 'result.stderr is search("LINK: ")'
   become: false
