@@ -5,7 +5,7 @@ Works for all dotfile repos that follow the [stow][stow] format ([blog post](htt
 
 ## Usage
 
-1. Change the `dotfiles_repo` variable to point to your dotfiles repo
+1. Change the `dotfiles_repo` variable in `defaults/main.yml` to point to your dotfiles repo
 2. Create a playbook with this Role
 3. Run the playbook
 
