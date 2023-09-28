@@ -13,7 +13,8 @@
       - stow
       - git
     state: present
-  become: true
+  # https://stackoverflow.com/a/63734604/2359478
+  become: "{{ 'false' if ansible_pkg_mgr == 'brew' else 'true' }}"
 
 - name: Ensure dotfiles repository is cloned locally
   ansible.builtin.git:
