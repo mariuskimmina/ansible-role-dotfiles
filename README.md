@@ -19,7 +19,7 @@ None
 ---
 - hosts: localhost
   roles:
-    - { role: idolize.dotfiles }
+    - { role: mariuskimmina.dotfiles }
 ```
 
 
@@ -32,8 +32,6 @@ Fully tested on:
 * macOS 13.4.1
 
 ## Credits
-
-Forked from: https://github.com/mariuskimmina/ansible-role-dotfiles
 
 Inspired by: https://github.com/geerlingguy/ansible-role-dotfiles
 

@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   role_name: dotfiles
-  author: idolize
+  author: mariuskimmina
   description: Dotfile installation for UNIX/Linux using stow.
   company: None
   license: "license (BSD, MIT)"
