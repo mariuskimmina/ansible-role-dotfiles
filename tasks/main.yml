@@ -13,8 +13,7 @@
       - stow
       - git
     state: present
-  # https://stackoverflow.com/a/63734604/2359478
-  become: "{{ 'false' if ansible_pkg_mgr == 'brew' else 'true' }}"
+  become: "{{ 'false' if ansible_pkg_mgr == 'homebrew' else 'true' }}"
 
 - name: Ensure dotfiles repository is cloned locally
   ansible.builtin.git:
@@ -34,7 +33,9 @@
 
 - name: Deploy dotfiles
   with_items: '{{ files.files }}'
-  # https://phelipetls.github.io/posts/introduction-to-ansible/#stow
-  ansible.builtin.command: stow --target={{ dotfiles_home }} {{ item.path | basename }} --verbose=2
+  ansible.builtin.command:
+    cmd: stow --target={{ dotfiles_home }} {{ item.path | basename }} --verbose=2
+    chdir: "{{ dotfiles_repo_local_destination }}"
+  register: result
   changed_when: 'result.stderr is search("LINK: ")'
   become: false
