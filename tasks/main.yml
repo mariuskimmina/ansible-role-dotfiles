@@ -13,7 +13,7 @@
       - stow
       - git
     state: present
-  become: "{{ 'false' if ansible_pkg_mgr == 'homebrew' else 'true' }}"
+  become: true
 
 - name: Ensure dotfiles repository is cloned locally
   ansible.builtin.git:

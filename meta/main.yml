@@ -18,12 +18,6 @@ galaxy_info:
     - name: GenericLinux
       versions:
         - all
-    - name: macOS
-      versions:
-        - all
-    - name: MacOSX
-      versions:
-        - all
   galaxy_tags:
     - development
     - system

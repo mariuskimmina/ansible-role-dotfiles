@@ -30,7 +30,6 @@ Fully tested on:
 
 * Fedora 36
 * Ubuntu 20.04
-* macOS 13.4.1
 
 ## Credits
 
